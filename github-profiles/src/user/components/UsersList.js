@@ -5,11 +5,21 @@ import UserItem from "./UserItem";
 import "./UsersList.css";
 
 const UsersList = (props) => {
-  if (props.items.length === 0) {
+  if (props.items.length === 0 && !props.history) {
     return (
       <div className="user-list center">
         <Card>
           <h2>No user found.</h2>
+        </Card>
+      </div>
+    );
+  }
+
+  if (props.items.length === 0 && props.history) {
+    return (
+      <div className="user-list center">
+        <Card>
+          <h2>No history yet.</h2>
         </Card>
       </div>
     );
@@ -26,6 +36,7 @@ const UsersList = (props) => {
           description={user.description}
           repoCount={user.repoCount}
           followerCount={user.followerCount}
+          history={props.history}
         />
       ))}
     </ul>

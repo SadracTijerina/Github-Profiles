@@ -16,13 +16,16 @@ const UsersHistory = () => {
       followerCount: 44,
     },
   ];
+
+  // Need to add onClick functionality when user is clicked to take them to profile
+
   return (
     <div>
       <h1 className="history-text">Search History</h1>
       <h3 className="history-text">
         Number of accounts searched: {USERS.length}
       </h3>
-      <UsersList items={USERS} />
+      <UsersList items={USERS} history={true} />
     </div>
   );
 };

@@ -39,11 +39,13 @@ const UserItem = (props) => {
           <h3>Followers: {props.followerCount}</h3>
           <p>{props.description}</p>
         </div>
-        <div className="user-item__actions">
-          <Button inverse onClick={historyHandler}>
-            Add to History
-          </Button>
-        </div>
+        {!props.history && (
+          <div className="user-item__actions">
+            <Button inverse onClick={historyHandler}>
+              Add to History
+            </Button>
+          </div>
+        )}
       </Card>
     </li>
   );
