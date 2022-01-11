@@ -7,7 +7,7 @@ import {
 
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import HomePage from "./Homepage/HomePage";
-// import Users from "./user/pages/Users";
+import UsersHistory from "./user/components/pages/UsersHistory";
 
 function App() {
   return (
@@ -16,6 +16,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/history" element={<UsersHistory />} />
         </Routes>
       </main>
     </Router>
