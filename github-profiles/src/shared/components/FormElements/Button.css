@@ -48,3 +48,15 @@
 .button--big {
   font-size: 1.5rem;
 }
+
+.button--center {
+  float: "center";
+}
+
+.button--right {
+  margin-right: 0px;
+  margin-left: auto;
+}
+
+.button--left {
+}

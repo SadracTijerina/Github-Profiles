@@ -1,0 +1,17 @@
+.github-form {
+  list-style: none;
+  margin: 0 auto;
+  padding: 1rem;
+  width: 90%;
+  max-width: 40rem;
+  border-radius: 6px;
+}
+
+.search-text {
+  text-align: center;
+  color: white;
+}
+
+.github-form__button {
+  float: right;
+}
