@@ -1,5 +1,7 @@
 const HttpError = require("../models/http-error");
+const User = require("../models/users");
 
+// id should be a number as well
 let DUMMY_USERS = [
   {
     id: "u1",
@@ -57,19 +59,34 @@ const getHistory = (req, res, next) => {
   res.status(200).json({ history: DUMMY_USERS });
 };
 
-const createHistory = (req, res, next) => {
-  const { id, image, title, description, repoCount, followerCount } = req.body;
+const createHistory = async (req, res, next) => {
+  const { id, image, title, description, repoCount, followerCount, history } =
+    req.body;
 
-  const createdHistory = {
-    id,
-    image,
+  if (history) {
+    const error = new HttpError("User is already in your history.", 500);
+    return next(error);
+  }
+
+  const createdHistory = new User({
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/%D0%A1%D0%B0%D1%83%D0%BB%D1%8C_%D0%90%D0%BB%D1%8C%D0%B2%D0%B0%D1%80%D0%B5%D1%81.jpg/800px-%D0%A1%D0%B0%D1%83%D0%BB%D1%8C_%D0%90%D0%BB%D1%8C%D0%B2%D0%B0%D1%80%D0%B5%D1%81.jpg",
     title,
     description,
     repoCount,
     followerCount,
-  };
+    history: true,
+  });
 
-  DUMMY_USERS.push(createdHistory);
+  try {
+    await createdHistory.save();
+  } catch (err) {
+    const error = new HttpError(
+      "Creating place failed, please try again.",
+      500
+    );
+    return next(error);
+  }
 
   res.status(201).json({ history: createdHistory });
 };

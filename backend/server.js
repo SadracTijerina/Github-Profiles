@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
 const userRoutes = require("./routes/users-routes");
 const HttpError = require("./models/http-error");
@@ -23,4 +24,13 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || "An unknown occurred!" });
 });
 
-app.listen(5000);
+mongoose
+  .connect(
+    "mongodb+srv://reavity:VJF1dka.xrf.xbn2vud@cluster0.toh7o.mongodb.net/github-search?retryWrites=true&w=majority"
+  )
+  .then(() => {
+    app.listen(5000);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
