@@ -1,54 +1,17 @@
-import React, { useCallback, useReducer } from "react";
+import React, { useCallback, useReducer, useEffect, useState } from "react";
 
 import Button from "../../../shared/components/FormElements/Button";
 import Input from "../../../shared/components/FormElements/Input";
+import ErrorModal from "../../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
 import UsersList from "../UsersList";
-
+import { useHttpClient } from "../../../shared/hooks/http-hook";
 import "./UserSearch.css";
 
-import { VALIDATOR_REQUIRE } from "../../../shared/components/utils/validators";
-
 const UserSearch = () => {
-  const USERS = [
-    {
-      id: "u1",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/%D0%A1%D0%B0%D1%83%D0%BB%D1%8C_%D0%90%D0%BB%D1%8C%D0%B2%D0%B0%D1%80%D0%B5%D1%81.jpg/800px-%D0%A1%D0%B0%D1%83%D0%BB%D1%8C_%D0%90%D0%BB%D1%8C%D0%B2%D0%B0%D1%80%D0%B5%D1%81.jpg",
-      title: "Sadrac Tijerina",
-      description: "Hoping to land a job with this amazing company!",
-      repoCount: 33,
-      followerCount: 44,
-    },
-    {
-      id: "u1",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/%D0%A1%D0%B0%D1%83%D0%BB%D1%8C_%D0%90%D0%BB%D1%8C%D0%B2%D0%B0%D1%80%D0%B5%D1%81.jpg/800px-%D0%A1%D0%B0%D1%83%D0%BB%D1%8C_%D0%90%D0%BB%D1%8C%D0%B2%D0%B0%D1%80%D0%B5%D1%81.jpg",
-      title: "Sadrac Tijerina",
-      description: "Hoping to land a job with this amazing company!",
-      repoCount: 33,
-      followerCount: 44,
-    },
-    {
-      id: "u1",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/%D0%A1%D0%B0%D1%83%D0%BB%D1%8C_%D0%90%D0%BB%D1%8C%D0%B2%D0%B0%D1%80%D0%B5%D1%81.jpg/800px-%D0%A1%D0%B0%D1%83%D0%BB%D1%8C_%D0%90%D0%BB%D1%8C%D0%B2%D0%B0%D1%80%D0%B5%D1%81.jpg",
-      title: "Sadrac Tijerina",
-      description: "Hoping to land a job with this amazing company!",
-      repoCount: 33,
-      followerCount: 44,
-    },
-    {
-      id: "u1",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/%D0%A1%D0%B0%D1%83%D0%BB%D1%8C_%D0%90%D0%BB%D1%8C%D0%B2%D0%B0%D1%80%D0%B5%D1%81.jpg/800px-%D0%A1%D0%B0%D1%83%D0%BB%D1%8C_%D0%90%D0%BB%D1%8C%D0%B2%D0%B0%D1%80%D0%B5%D1%81.jpg",
-      title: "Sadrac Tijerina",
-      description: "Hoping to land a job with this amazing company!",
-      repoCount: 33,
-      followerCount: 44,
-    },
-  ];
-
   // Need to add onClick functionality when user is clicked to take them to profile
+  const [loadedUsers, setLoadedUsers] = useState();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const formReducer = (state, action) => {
     switch (action.type) {
@@ -56,6 +19,7 @@ const UserSearch = () => {
         if (action.value.length > 0) {
           return {
             ...state,
+            value: action.value,
             isValid: true,
           };
         } else {
@@ -90,8 +54,23 @@ const UserSearch = () => {
     });
   }, []);
 
-  const placeSubmitHandler = (event) => {
+  const fetchUsers = async (username) => {
+    try {
+      const url = `https://api.github.com/search/users?q=${username}&1,5,default,desc`;
+
+      const responseData = await fetch(url).then((res) => res.json());
+      setLoadedUsers(responseData.items);
+    } catch (err) {}
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, [sendRequest]);
+
+  const userSubmitHandler = async (event) => {
     event.preventDefault();
+
+    fetchUsers(formState.value);
 
     dispatch({ type: "SEARCHED" });
   };
@@ -100,7 +79,7 @@ const UserSearch = () => {
     <React.Fragment>
       <h1 className="search-text">Search Users</h1>
 
-      <form onSubmit={placeSubmitHandler} className="github-form">
+      <form onSubmit={userSubmitHandler} className="github-form">
         <Input
           id="search"
           element="input"
@@ -116,10 +95,18 @@ const UserSearch = () => {
       <div className="scollmenu">
         {formState.isSearch && (
           <h3 className="search-text">
-            Number of accounts found: {USERS.length}
+            Number of accounts found: {loadedUsers.length}
           </h3>
         )}
-        <UsersList items={USERS} history={false} />
+        <ErrorModal error={error} onClear={clearError} />
+        {isLoading && (
+          <div className="center">
+            <LoadingSpinner />
+          </div>
+        )}
+        {!isLoading && loadedUsers && (
+          <UsersList items={loadedUsers} history={false} />
+        )}
       </div>
     </React.Fragment>
   );

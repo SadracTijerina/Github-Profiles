@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import Card from "../../shared/components/UIElements/Card";
 import UserItem from "./UserItem";
@@ -9,7 +9,7 @@ const UsersList = (props) => {
     return (
       <div className="user-list center">
         <Card>
-          <h2>No user found.</h2>
+          <h2>No users found.</h2>
         </Card>
       </div>
     );
@@ -19,11 +19,25 @@ const UsersList = (props) => {
     return (
       <div className="user-list center">
         <Card>
-          <h2>No history yet.</h2>
+          <h2>No history users yet.</h2>
         </Card>
       </div>
     );
   }
+
+  const getBio = async (login) => {
+    if (login.size < 1 || login.size === null) {
+      return;
+    }
+
+    try {
+      const url = `https://api.github.com/users/${login}`;
+
+      const responseData = await fetch(url).then((res) => res.json());
+
+      console.log("Getting data", responseData);
+    } catch (err) {}
+  };
 
   return (
     <ul className="user-list">
@@ -31,12 +45,12 @@ const UsersList = (props) => {
         <UserItem
           key={user.id}
           id={user.id}
-          image={user.image}
-          title={user.title}
-          description={user.description}
-          repoCount={user.repoCount}
-          followerCount={user.followerCount}
-          history={props.history}
+          image={user.avatar_url}
+          title={user.login}
+          // description={getBio("SadracTijerina")}
+          // repoCount={user.repoCount.length}
+          // followerCount={user.followerCount.length}
+          // history={props.history}
         />
       ))}
     </ul>

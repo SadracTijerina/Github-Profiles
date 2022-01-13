@@ -9,6 +9,16 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.use((req, res, bext) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin X-Requested-With, Content-Type, Accept"
+  );
+  res.setHeader("Allow-Control-Allow-Methods, GET, DELETE, POST");
+  next();
+});
+
 app.use("/api/users", userRoutes);
 
 app.use((req, res, next) => {
@@ -26,7 +36,7 @@ app.use((error, req, res, next) => {
 
 mongoose
   .connect(
-    "mongodb+srv://reavity:VJF1dka.xrf.xbn2vud@cluster0.toh7o.mongodb.net/github-search?retryWrites=true&w=majority"
+    "mongodb+srv://reavity:VJF1dka.xrf.xbn2vud@cluster0.toh7o.mongodb.net/mern?retryWrites=true&w=majority"
   )
   .then(() => {
     app.listen(5000);

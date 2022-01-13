@@ -55,8 +55,21 @@ const searchUserByUsername = (req, res, next) => {
   res.json({ user: user });
 };
 
-const getHistory = (req, res, next) => {
-  res.status(200).json({ history: DUMMY_USERS });
+const getHistory = async (req, res, next) => {
+  let historyUsers;
+
+  try {
+    historyUsers = await User.find({}, "-history");
+  } catch (err) {
+    const error = new HttpError(
+      "Fetching history users failed, try again later.",
+      500
+    );
+    return next(error);
+  }
+  res.json({
+    historyUsers: historyUsers.map((user) => user.toObject({ getters: true })),
+  });
 };
 
 const createHistory = async (req, res, next) => {
@@ -91,10 +104,25 @@ const createHistory = async (req, res, next) => {
   res.status(201).json({ history: createdHistory });
 };
 
-const deleteHistory = (req, res, next) => {
+const deleteHistory = async (req, res, next) => {
   userId = req.params.id;
-  DUMMY_USERS = DUMMY_USERS.filter((user) => userId !== user.id);
-  res.status(200).json({ message: "Deleted user" });
+  let history;
+
+  try {
+    history = await User.findById(userId);
+  } catch (err) {
+    const error = new HttpError("Unable to delete history", 500);
+    return next(error);
+  }
+
+  try {
+    await history.remove();
+  } catch (err) {
+    const error = new HttpError("Unable to delete history", 500);
+    return next(error);
+  }
+
+  res.status(200).json({ message: "Deleted user history" });
 };
 
 exports.searchUserByUsername = searchUserByUsername;
