@@ -18,7 +18,9 @@ const UsersHistory = () => {
       setIsLoading(true);
 
       try {
-        const response = await fetch("http://localhost:5000/api/users/history");
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/history`
+        );
 
         const responseData = await response.json();
 

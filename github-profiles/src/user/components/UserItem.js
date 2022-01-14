@@ -12,7 +12,7 @@ const UserItem = (props) => {
     console.log(e);
     try {
       await sendRequest(
-        "http://localhost:5000/api/users/history",
+        `${process.env.REACT_APP_BACKEND_URL}/history`,
         "POST",
         JSON.stringify({
           title: props.title,
