@@ -1,30 +1,30 @@
-import React, { useCallback, useReducer } from "react";
+import React, { useEffect } from "react";
 
 import Card from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
 import "./UserItem.css";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 
 const UserItem = (props) => {
-  // todo: FIGURE OUT HOW TO ADD THE USER TO HISTORY
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
-  //     const[historyState, dispatch] = useReducer(historyReducer, {inputs: {
-
-  //     }})
-
-  //   const historyHandler = useCallback(
-  //     (title, repoCount, followerCount, description) => {
-  //       dispatch({
-  //         type: "ADD_HISTORY",
-  //         title: title,
-  //         repoCount: repoCount,
-  //         followerCount: followerCount,
-  //         description: description,
-  //       });
-  //     }
-  //   );
-
-  const historyHandler = (e) => {
+  const historyHandler = async (e) => {
     console.log(e);
+    try {
+      await sendRequest(
+        "http://localhost:5000/api/users/history",
+        "POST",
+        JSON.stringify({
+          title: props.title,
+          repoCount: 33,
+          followerCount: 4,
+          history: "test",
+          id: props.id,
+          image: props.image,
+        }),
+        { "Content-type": "application/json" }
+      );
+    } catch (err) {}
   };
 
   return (
@@ -39,13 +39,14 @@ const UserItem = (props) => {
           <h3>Followers: {props.followerCount}</h3>
           <p>{props.description}</p>
         </div>
-        {!props.history && (
-          <div className="user-item__actions">
+        <div className="user-item__actions">
+          <Button href={props.link}>Go to profile</Button>
+          {!props.history && (
             <Button inverse onClick={historyHandler}>
               Add to History
             </Button>
-          </div>
-        )}
+          )}
+        </div>
       </Card>
     </li>
   );

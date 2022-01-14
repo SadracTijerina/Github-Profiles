@@ -18,7 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/history" element={<UsersHistory />} />
-          <Route path="/search/:name" element={<UserSearch />} />
+          <Route path="/search/" element={<UserSearch />} />
         </Routes>
       </main>
     </Router>

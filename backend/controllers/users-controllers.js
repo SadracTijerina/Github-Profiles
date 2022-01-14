@@ -1,46 +1,6 @@
 const HttpError = require("../models/http-error");
 const User = require("../models/users");
 
-// id should be a number as well
-let DUMMY_USERS = [
-  {
-    id: "u1",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/%D0%A1%D0%B0%D1%83%D0%BB%D1%8C_%D0%90%D0%BB%D1%8C%D0%B2%D0%B0%D1%80%D0%B5%D1%81.jpg/800px-%D0%A1%D0%B0%D1%83%D0%BB%D1%8C_%D0%90%D0%BB%D1%8C%D0%B2%D0%B0%D1%80%D0%B5%D1%81.jpg",
-    title: "Sadrac Tijerina",
-    description: "Hoping to land a job with this amazing company!",
-    repoCount: 33,
-    followerCount: 44,
-  },
-  {
-    id: "u2",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/%D0%A1%D0%B0%D1%83%D0%BB%D1%8C_%D0%90%D0%BB%D1%8C%D0%B2%D0%B0%D1%80%D0%B5%D1%81.jpg/800px-%D0%A1%D0%B0%D1%83%D0%BB%D1%8C_%D0%90%D0%BB%D1%8C%D0%B2%D0%B0%D1%80%D0%B5%D1%81.jpg",
-    title: "Sadrac",
-    description: "Hoping to land a job with this amazing company!",
-    repoCount: 3,
-    followerCount: 44,
-  },
-  {
-    id: "u3",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/%D0%A1%D0%B0%D1%83%D0%BB%D1%8C_%D0%90%D0%BB%D1%8C%D0%B2%D0%B0%D1%80%D0%B5%D1%81.jpg/800px-%D0%A1%D0%B0%D1%83%D0%BB%D1%8C_%D0%90%D0%BB%D1%8C%D0%B2%D0%B0%D1%80%D0%B5%D1%81.jpg",
-    title: "bob",
-    description: "Hoping to land a job with this amazing company!",
-    repoCount: 33,
-    followerCount: 4,
-  },
-  {
-    id: "u4",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/%D0%A1%D0%B0%D1%83%D0%BB%D1%8C_%D0%90%D0%BB%D1%8C%D0%B2%D0%B0%D1%80%D0%B5%D1%81.jpg/800px-%D0%A1%D0%B0%D1%83%D0%BB%D1%8C_%D0%90%D0%BB%D1%8C%D0%B2%D0%B0%D1%80%D0%B5%D1%81.jpg",
-    title: "Sadrac Tijerina",
-    description: "Hoping to land a job with this amazing company!",
-    repoCount: 0,
-    followerCount: 44,
-  },
-];
-
 const searchUserByUsername = (req, res, next) => {
   const name = req.params.name;
   const user = DUMMY_USERS.find((p) => {
@@ -82,22 +42,19 @@ const createHistory = async (req, res, next) => {
   }
 
   const createdHistory = new User({
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/%D0%A1%D0%B0%D1%83%D0%BB%D1%8C_%D0%90%D0%BB%D1%8C%D0%B2%D0%B0%D1%80%D0%B5%D1%81.jpg/800px-%D0%A1%D0%B0%D1%83%D0%BB%D1%8C_%D0%90%D0%BB%D1%8C%D0%B2%D0%B0%D1%80%D0%B5%D1%81.jpg",
-    title,
-    description,
-    repoCount,
-    followerCount,
+    id: id,
+    image: image,
+    title: title,
+    description: "testing",
+    repoCount: 33,
+    followerCount: 3,
     history: true,
   });
 
   try {
     await createdHistory.save();
   } catch (err) {
-    const error = new HttpError(
-      "Creating place failed, please try again.",
-      500
-    );
+    const error = new HttpError("Creating user failed, please try again.", 500);
     return next(error);
   }
 

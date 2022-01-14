@@ -10,7 +10,7 @@ const NavLinks = (props) => {
         <NavLink to="/history">Search History</NavLink>
       </li>
       <li>
-        <NavLink to="/search/:name">Search Users</NavLink>
+        <NavLink to="/search/">Search Users</NavLink>
       </li>
     </ul>
   );
