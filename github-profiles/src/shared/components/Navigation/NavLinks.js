@@ -7,9 +7,6 @@ const NavLinks = (props) => {
   return (
     <ul className="nav-links">
       <li>
-        <NavLink to="/history">Search History</NavLink>
-      </li>
-      <li>
         <NavLink to="/search/">Search Users</NavLink>
       </li>
     </ul>

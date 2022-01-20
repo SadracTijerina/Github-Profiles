@@ -15,16 +15,6 @@ const UsersList = (props) => {
     );
   }
 
-  if (props.items.length === 0 && props.history) {
-    return (
-      <div className="user-list center">
-        <Card>
-          <h2>No history users yet.</h2>
-        </Card>
-      </div>
-    );
-  }
-
   return (
     <ul className="user-list">
       {props.items.map((user) => (
@@ -34,10 +24,7 @@ const UsersList = (props) => {
           image={user.avatar_url}
           title={user.login}
           link={user.html_url}
-          //description={user.html_url}
-          //repoCount={}
-          //followerCount={user.followerCount.length}
-          // history={props.history}
+          users={props.items.length}
         />
       ))}
     </ul>

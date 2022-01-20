@@ -7,7 +7,6 @@ import {
 
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import HomePage from "./Homepage/HomePage";
-import UsersHistory from "./user/components/pages/UsersHistory";
 import UserSearch from "./user/components/pages/UserSearch";
 
 function App() {
@@ -17,7 +16,6 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/history" element={<UsersHistory />} />
           <Route path="/search/" element={<UserSearch />} />
         </Routes>
       </main>

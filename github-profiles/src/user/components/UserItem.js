@@ -8,6 +8,19 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 const UserItem = (props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [repoCount, setRepoCount] = useState(null);
+  const [followers, setFollowers] = useState(null);
+  const [description, setDescription] = useState(null);
+  const [pages] = useState(Math.round(props.users / 5));
+
+  const goToNextPage = () => {};
+
+  const goToPrevPage = () => {};
+
+  const changePage = () => {};
+
+  const getPaginatedData = () => {};
+
+  const getPaginationGroup = () => {};
 
   const fetchRepos = async () => {
     try {
@@ -15,6 +28,8 @@ const UserItem = (props) => {
       const responseData = await fetch(url).then((res) => res.json());
 
       setRepoCount(responseData.public_repos);
+      setFollowers(responseData.followers);
+      setDescription(responseData.bio);
     } catch (err) {
       console.log(err);
     }
@@ -22,7 +37,7 @@ const UserItem = (props) => {
 
   useEffect(() => {
     fetchRepos();
-  }, [repoCount]);
+  }, [repoCount, followers, description]);
 
   return (
     <li className="user-item">
@@ -33,8 +48,8 @@ const UserItem = (props) => {
         <div className="user-item__info">
           <h2>{props.title}</h2>
           <h3>Repos: {repoCount}</h3>
-          <h3>Followers: {props.followerCount}</h3>
-          <p>{props.description}</p>
+          <h3>Followers: {followers}</h3>
+          <p>{description}</p>
         </div>
         <div className="user-item__actions">
           <Button href={props.link}>Go to profile</Button>
