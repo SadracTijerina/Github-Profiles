@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import Card from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
@@ -7,25 +7,22 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 
 const UserItem = (props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const [repoCount, setRepoCount] = useState(null);
 
-  const historyHandler = async (e) => {
-    console.log(e);
+  const fetchRepos = async () => {
     try {
-      await sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}/history`,
-        "POST",
-        JSON.stringify({
-          title: props.title,
-          repoCount: 33,
-          followerCount: 4,
-          history: "test",
-          id: props.id,
-          image: props.image,
-        }),
-        { "Content-type": "application/json" }
-      );
-    } catch (err) {}
+      const url = `https://api.github.com/users/${props.title}`;
+      const responseData = await fetch(url).then((res) => res.json());
+
+      setRepoCount(responseData.public_repos);
+    } catch (err) {
+      console.log(err);
+    }
   };
+
+  useEffect(() => {
+    fetchRepos();
+  }, [repoCount]);
 
   return (
     <li className="user-item">
@@ -35,17 +32,12 @@ const UserItem = (props) => {
         </div>
         <div className="user-item__info">
           <h2>{props.title}</h2>
-          <h3>Repos: {props.repoCount}</h3>
+          <h3>Repos: {repoCount}</h3>
           <h3>Followers: {props.followerCount}</h3>
           <p>{props.description}</p>
         </div>
         <div className="user-item__actions">
           <Button href={props.link}>Go to profile</Button>
-          {!props.history && (
-            <Button inverse onClick={historyHandler}>
-              Add to History
-            </Button>
-          )}
         </div>
       </Card>
     </li>

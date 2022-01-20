@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 
 import Card from "../../shared/components/UIElements/Card";
 import UserItem from "./UserItem";
@@ -35,7 +35,7 @@ const UsersList = (props) => {
           title={user.login}
           link={user.html_url}
           //description={user.html_url}
-          repoCount={user.repos_url}
+          //repoCount={}
           //followerCount={user.followerCount.length}
           // history={props.history}
         />
