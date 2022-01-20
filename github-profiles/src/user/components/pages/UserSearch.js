@@ -6,14 +6,22 @@ import ErrorModal from "../../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
 import UsersList from "../UsersList";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
+import Pagination from "../Pagination";
+
 import "./UserSearch.css";
 
 const UserSearch = () => {
-  // Need to add onClick functionality when user is clicked to take them to profile
   const [loadedUsers, setLoadedUsers] = useState(null);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [currentPage, setCurrentPage] = useState(1);
-  const [postPerPage, setPostPerPage] = useState(5);
+  const [userPerPage] = useState(5);
+
+  const indexOfLastUser = currentPage * userPerPage;
+  const indexOfFirstUser = indexOfLastUser - userPerPage;
+  let currentUsers;
+  if (loadedUsers !== null) {
+    currentUsers = loadedUsers.slice(indexOfFirstUser, indexOfLastUser);
+  }
 
   const formReducer = (state, action) => {
     switch (action.type) {
@@ -58,7 +66,6 @@ const UserSearch = () => {
 
   const fetchUsers = async (username) => {
     if (username !== undefined) {
-      console.log("username: ", username);
       try {
         const url = `https://api.github.com/search/users?q=${username}&1,5,default,desc`;
 
@@ -80,12 +87,9 @@ const UserSearch = () => {
     dispatch({ type: "SEARCHED" });
   };
 
-  const indexOfLastPost = currentPage * postPerPage;
-  const indexOfFirstPost = indexOfLastPost - postPerPage;
-  let currentPosts;
-  if (loadedUsers !== null) {
-    currentPosts = loadedUsers.slice(indexOfFirstPost, indexOfLastPost);
-  }
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <React.Fragment>
@@ -116,8 +120,15 @@ const UserSearch = () => {
             <LoadingSpinner />
           </div>
         )}
-        {!isLoading && loadedUsers && <UsersList items={currentPosts} />}
+        {!isLoading && loadedUsers && <UsersList items={currentUsers} />}
       </div>
+      {loadedUsers !== null && (
+        <Pagination
+          totalUsers={loadedUsers.length}
+          usersPerPage={userPerPage}
+          paginate={paginate}
+        />
+      )}
     </React.Fragment>
   );
 };

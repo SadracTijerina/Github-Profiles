@@ -1,9 +1,11 @@
 import React from "react";
 
-const Pagination = () => {
+import "./Pagination.css";
+
+const Pagination = (props) => {
   const pageNumbers = [];
 
-  for (let i = 1; i <= Math.ceil(props.totalPosts / props.postsPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(props.totalUsers / props.usersPerPage); i++) {
     pageNumbers.push(i);
   }
 
@@ -12,7 +14,11 @@ const Pagination = () => {
       <uL className="pagination">
         {pageNumbers.map((page) => (
           <li key={page} className="page-item">
-            <a href="" className="page-link">
+            <a
+              onClick={() => props.paginate(page)}
+              href="!#"
+              className="page-link"
+            >
               {page}
             </a>
           </li>
