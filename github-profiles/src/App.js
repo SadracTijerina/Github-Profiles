@@ -6,7 +6,6 @@ import {
 } from "react-router-dom";
 
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
-import HomePage from "./Homepage/HomePage";
 import UserSearch from "./user/components/pages/UserSearch";
 
 function App() {
@@ -15,8 +14,7 @@ function App() {
       <MainNavigation />
       <main>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/search/" element={<UserSearch />} />
+          <Route path="/" element={<UserSearch />} />
         </Routes>
       </main>
     </Router>
