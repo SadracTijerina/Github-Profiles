@@ -10,8 +10,10 @@ import "./UserSearch.css";
 
 const UserSearch = () => {
   // Need to add onClick functionality when user is clicked to take them to profile
-  const [loadedUsers, setLoadedUsers] = useState();
+  const [loadedUsers, setLoadedUsers] = useState(null);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postPerPage, setPostPerPage] = useState(5);
 
   const formReducer = (state, action) => {
     switch (action.type) {
@@ -55,12 +57,15 @@ const UserSearch = () => {
   }, []);
 
   const fetchUsers = async (username) => {
-    try {
-      const url = `https://api.github.com/search/users?q=${username}&1,5,default,desc`;
+    if (username !== undefined) {
+      console.log("username: ", username);
+      try {
+        const url = `https://api.github.com/search/users?q=${username}&1,5,default,desc`;
 
-      const responseData = await fetch(url).then((res) => res.json());
-      setLoadedUsers(responseData.items);
-    } catch (err) {}
+        const responseData = await fetch(url).then((res) => res.json());
+        setLoadedUsers(responseData.items);
+      } catch (err) {}
+    }
   };
 
   useEffect(() => {
@@ -74,6 +79,13 @@ const UserSearch = () => {
 
     dispatch({ type: "SEARCHED" });
   };
+
+  const indexOfLastPost = currentPage * postPerPage;
+  const indexOfFirstPost = indexOfLastPost - postPerPage;
+  let currentPosts;
+  if (loadedUsers !== null) {
+    currentPosts = loadedUsers.slice(indexOfFirstPost, indexOfLastPost);
+  }
 
   return (
     <React.Fragment>
@@ -93,7 +105,7 @@ const UserSearch = () => {
         </Button>
       </form>
       <div className="scollmenu">
-        {formState.isSearch && (
+        {loadedUsers !== null && (
           <h3 className="search-text">
             Number of accounts found: {loadedUsers.length}
           </h3>
@@ -104,9 +116,7 @@ const UserSearch = () => {
             <LoadingSpinner />
           </div>
         )}
-        {!isLoading && loadedUsers && (
-          <UsersList items={loadedUsers} history={false} />
-        )}
+        {!isLoading && loadedUsers && <UsersList items={currentPosts} />}
       </div>
     </React.Fragment>
   );

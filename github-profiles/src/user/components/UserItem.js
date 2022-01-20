@@ -37,7 +37,7 @@ const UserItem = (props) => {
 
   useEffect(() => {
     fetchRepos();
-  }, [repoCount, followers, description]);
+  }, []);
 
   return (
     <li className="user-item">
