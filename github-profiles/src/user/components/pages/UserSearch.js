@@ -14,7 +14,7 @@ const UserSearch = () => {
   const [loadedUsers, setLoadedUsers] = useState(null);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [currentPage, setCurrentPage] = useState(1);
-  const [userPerPage] = useState(5);
+  const [userPerPage] = useState(10);
 
   const indexOfLastUser = currentPage * userPerPage;
   const indexOfFirstUser = indexOfLastUser - userPerPage;

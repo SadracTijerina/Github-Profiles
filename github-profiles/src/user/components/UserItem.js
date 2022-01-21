@@ -10,17 +10,6 @@ const UserItem = (props) => {
   const [repoCount, setRepoCount] = useState(null);
   const [followers, setFollowers] = useState(null);
   const [description, setDescription] = useState(null);
-  const [pages] = useState(Math.round(props.users / 5));
-
-  const goToNextPage = () => {};
-
-  const goToPrevPage = () => {};
-
-  const changePage = () => {};
-
-  const getPaginatedData = () => {};
-
-  const getPaginationGroup = () => {};
 
   const fetchRepos = async () => {
     try {

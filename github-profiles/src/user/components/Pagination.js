@@ -16,7 +16,7 @@ const Pagination = (props) => {
           <li key={page} className="page-item">
             <a
               onClick={() => props.paginate(page)}
-              href="!#"
+              href=""
               className="page-link"
             >
               {page}
