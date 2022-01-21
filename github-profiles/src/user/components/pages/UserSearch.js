@@ -32,12 +32,6 @@ const UserSearch = () => {
           };
         }
       }
-      case "SEARCHED": {
-        return {
-          ...state,
-          isSearch: true,
-        };
-      }
       default:
         return state;
     }
@@ -76,8 +70,6 @@ const UserSearch = () => {
     event.preventDefault();
 
     fetchUsers(formState.value);
-
-    dispatch({ type: "SEARCHED" });
   };
 
   const paginate = (pageNumber) => {

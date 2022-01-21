@@ -3,10 +3,8 @@ import React, { useState, useEffect } from "react";
 import Card from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
 import "./UserItem.css";
-import { useHttpClient } from "../../shared/hooks/http-hook";
 
 const UserItem = (props) => {
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [repoCount, setRepoCount] = useState(null);
   const [followers, setFollowers] = useState(null);
   const [description, setDescription] = useState(null);
