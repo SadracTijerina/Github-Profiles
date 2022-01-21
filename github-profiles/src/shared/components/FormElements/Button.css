@@ -49,6 +49,10 @@
   font-size: 1.5rem;
 }
 
+.button--xs {
+  font-size: 0.7rem;
+}
+
 .button--center {
   float: "center";
 }
@@ -56,7 +60,4 @@
 .button--right {
   margin-right: 0px;
   margin-left: auto;
-}
-
-.button--left {
 }

@@ -12,10 +12,10 @@ nav {
 }
 
 .pagination li {
-  margin: 0 1px;
+  margin-bottom: 10px;
 }
 
-.pagination a {
+/* .pagination button {
   display: block;
   padding: 0.5em 1em;
   border: 1px solid #999;
@@ -23,4 +23,4 @@ nav {
   text-decoration: none;
   background-color: white;
   color: inherit;
-}
+} */

@@ -16,13 +16,6 @@ const UserSearch = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [userPerPage] = useState(10);
 
-  const indexOfLastUser = currentPage * userPerPage;
-  const indexOfFirstUser = indexOfLastUser - userPerPage;
-  let currentUsers;
-  if (loadedUsers !== null) {
-    currentUsers = loadedUsers.slice(indexOfFirstUser, indexOfLastUser);
-  }
-
   const formReducer = (state, action) => {
     switch (action.type) {
       case "INPUT_CHANGE": {
@@ -90,6 +83,13 @@ const UserSearch = () => {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
+  const indexOfLastUser = currentPage * userPerPage;
+  const indexOfFirstUser = indexOfLastUser - userPerPage;
+  let currentUsers;
+  if (loadedUsers !== null) {
+    currentUsers = loadedUsers.slice(indexOfFirstUser, indexOfLastUser);
+  }
 
   return (
     <React.Fragment>

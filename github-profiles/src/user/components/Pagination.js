@@ -2,6 +2,8 @@ import React from "react";
 
 import "./Pagination.css";
 
+import Button from "../../shared/components/FormElements/Button";
+
 const Pagination = (props) => {
   const pageNumbers = [];
 
@@ -14,13 +16,9 @@ const Pagination = (props) => {
       <uL className="pagination">
         {pageNumbers.map((page) => (
           <li key={page} className="page-item">
-            <a
-              onClick={() => props.paginate(page)}
-              href=""
-              className="page-link"
-            >
+            <Button size="xs" onClick={() => props.paginate(page)}>
               {page}
-            </a>
+            </Button>
           </li>
         ))}
       </uL>

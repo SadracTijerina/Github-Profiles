@@ -1,9 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Routes,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import UserSearch from "./user/components/pages/UserSearch";
